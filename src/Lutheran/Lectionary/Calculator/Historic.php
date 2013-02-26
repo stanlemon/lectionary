@@ -1,9 +1,8 @@
 <?php
-
 /**
  * Lutheran Lectionary Project
  *
- * Copyright (c) 2008 Stan Lemon <http://www.stanlemon.net>
+ * Copyright (c) 2013 Stan Lemon <http://www.stanlemon.net>
  * Licensed under LGPL
  *
  * The Lutheran Lectionary Project provides an abstracted mechanism for 
@@ -13,10 +12,11 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @package	Lectionary
  */
+namespace Lutheran\Lectionary\Calculator;
 
-/**
- */
-class Historic_Calculator implements Lectionary_Calculator {
+use Lutheran\Lectionary\Calculator;
+
+class Historic implements Calculator {
 
 	protected $date;
 
@@ -26,9 +26,9 @@ class Historic_Calculator implements Lectionary_Calculator {
 		return $this->date;
 	}
 	
-	public function setDate( DateTime $date = null ) {
+	public function setDate(\DateTime $date = null) {
 		// Create a new instance of the datetime object from one passed in, or default to right now.
-		$this->date = ($date === null) ? new DateTime("now") : new DateTime( $date->format("r") );
+		$this->date = ($date === null) ? new \DateTime("now") : new \DateTime($date->format("r"));
 		// Clear out the time stamp on our date.
 		$this->date->setTime(0, 0, 0);
 		return $this;
@@ -78,7 +78,7 @@ class Historic_Calculator implements Lectionary_Calculator {
 
 
 	public function getAdvent() {
-		$advent = new DateTime();
+		$advent = new \DateTime();
 		$advent->setDate($this->date->format('Y'), 12, 25);
 		$advent->setTime(0,0,0);
 
@@ -94,7 +94,7 @@ class Historic_Calculator implements Lectionary_Calculator {
 
 
 	public function getChristmas() {
-		$christmas = new DateTime();
+		$christmas = new \DateTime();
 		$christmas->setDate($this->date->format('Y'), 12, 25);
 		$christmas->setTime(0,0,0);
 		
@@ -103,7 +103,7 @@ class Historic_Calculator implements Lectionary_Calculator {
 
 
 	public function getEpiphany() {
-		$epiphany = new DateTime();
+		$epiphany = new \DateTime();
 		$epiphany->setDate($this->date->format('Y'), 1, 6);
 		$epiphany->setTime(0, 0, 0);
 		
@@ -130,35 +130,28 @@ class Historic_Calculator implements Lectionary_Calculator {
 	public function getEaster() {
 		$year = $this->date->format('Y');
 
-		//if (function_exists('easter_date')) {
-		//	$easter = new DateTime( easter_date($year) );
-		//	$easter->setTime(0, 0, 0);
-		//	
-		//	return $easter;
-		//} else {
-			$a = $year % 19;
-			$b = floor($year / 100);
-			$c = $year % 100;
-			$d = floor($b / 4);
-			$e = $b % 4;
-			$f = floor(($b + 8) / 25);
-			$g = floor(($b - $f + 1) / 3);
-			$h = (19 * $a + $b - $d - $g + 15) % 30;
-			$i = floor($c / 4);
-			$k = $c % 4;
-			$l = (32 + 2 * $e + 2 * $i - $h - $k) % 7;
-			$m = floor(($a + 11 * $h + 22 * $l) / 451);
-			$n = ($h + $l - 7 * $m + 114);
+		$a = $year % 19;
+		$b = floor($year / 100);
+		$c = $year % 100;
+		$d = floor($b / 4);
+		$e = $b % 4;
+		$f = floor(($b + 8) / 25);
+		$g = floor(($b - $f + 1) / 3);
+		$h = (19 * $a + $b - $d - $g + 15) % 30;
+		$i = floor($c / 4);
+		$k = $c % 4;
+		$l = (32 + 2 * $e + 2 * $i - $h - $k) % 7;
+		$m = floor(($a + 11 * $h + 22 * $l) / 451);
+		$n = ($h + $l - 7 * $m + 114);
 
-			$month = floor($n / 31);
-			$day = $n % 31 + 1;
+		$month = floor($n / 31);
+		$day = $n % 31 + 1;
 
-			$easter = new DateTime();
-			$easter->setDate($year, $month, $day);
-			$easter->setTime(0, 0, 0); // It concerns me that I have to set this.
+		$easter = new \DateTime();
+		$easter->setDate($year, $month, $day);
+		$easter->setTime(0, 0, 0); // It concerns me that I have to set this.
 		
-			return $easter;
-		//}
+		return $easter;
 	}
 
 
@@ -201,7 +194,7 @@ class Historic_Calculator implements Lectionary_Calculator {
 	}
 	
 	
-	protected function getWeekDifference( DateTime $week1 , DateTime $week2 ) {
+	protected function getWeekDifference(\DateTime $week1 , \DateTime $week2) {
 		if ( $week1 > $week2 ) {
 			throw new Lectionary_Exception("Cannot calculate difference of a week ({$week1->format('Y-m-d')}) which exists after it's comparing week ({$week2->format('Y-m-d')}).");
 		} else {
@@ -222,5 +215,3 @@ class Historic_Calculator implements Lectionary_Calculator {
 		}
 	}
 }
-
-?>

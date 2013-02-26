@@ -1,9 +1,8 @@
 <?php
-
 /**
  * Lutheran Lectionary Project
  *
- * Copyright (c) 2008 Stan Lemon <http://www.stanlemon.net>
+ * Copyright (c) 2013 Stan Lemon <http://www.stanlemon.net>
  * Licensed under LGPL
  *
  * The Lutheran Lectionary Project provides an abstracted mechanism for 
@@ -13,18 +12,20 @@
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @package	Lectionary
  */
+namespace Lutheran\Lectionary\Calculator;
 
-/**
- */
-class ThreeYear_Calculator extends Historic_Calculator implements Lectionary_Calculator {
-	
+use Lutheran\Lectionary\Calculator;
+use Lutheran\Lectionary\Calculator\Historic;
+
+class ThreeYear extends Historic implements Calculator {
+
 	public function getTransfiguration() {
 		$transfiguration = $this->getEaster();
 		$transfiguration->modify('-7 weeks');
 
 		return $transfiguration;
 	}
-	
+
 	public function isPrivilidged() {
 		$week = $this->getWeek();
 
@@ -44,5 +45,3 @@ class ThreeYear_Calculator extends Historic_Calculator implements Lectionary_Cal
 		}		
 	}
 }
-
-?>

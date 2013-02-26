@@ -1,0 +1,23 @@
+{
+    "name": "stanlemon/lectionary",
+    "type": "library",
+    "description": "The Lutheran Lectionary Project provides an abstracted mechanism for developing lectionary algorithims for calculating a given Sunday of the church year.",
+    "keywords": ["lutheran", "lectionary"],
+    "homepage": "http://stanlemon.net",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stan Lemon",
+            "email": "stosh1985@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "Lutheran": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}

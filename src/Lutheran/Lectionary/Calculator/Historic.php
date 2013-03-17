@@ -15,6 +15,7 @@
 namespace Lutheran\Lectionary\Calculator;
 
 use Lutheran\Lectionary\Calculator;
+use Lutheran\Lectionary\Exception;
 
 class Historic implements Calculator {
 
@@ -195,8 +196,8 @@ class Historic implements Calculator {
 	
 	
 	protected function getWeekDifference(\DateTime $week1 , \DateTime $week2) {
-		if ( $week1 > $week2 ) {
-			throw new Lectionary_Exception("Cannot calculate difference of a week ({$week1->format('Y-m-d')}) which exists after it's comparing week ({$week2->format('Y-m-d')}).");
+		if ( $week1->format("Ymd") > $week2->format("Ymd") ) {
+			throw new Exception("Cannot calculate difference of a week ({$week1->format('Y-m-d')}) which exists after it's comparing week ({$week2->format('Y-m-d')}).");
 		} else {
 			$found = false;
 			$weeks = 0;

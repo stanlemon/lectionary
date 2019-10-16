@@ -2,14 +2,14 @@
 /**
  * Lutheran Lectionary Project
  *
- * Copyright (c) 2013 Stan Lemon <http://www.stanlemon.net>
- * Licensed under LGPL
+ * Copyright (c) 2019 Stan Lemon <http://www.stanlemon.com>
+ * Licensed under MIT
  *
  * The Lutheran Lectionary Project provides an abstracted mechanism for 
  * developing lectionary algorithims for calculating a given Sunday of
  * the church year.
  *
- * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @license http://opensource.org/licenses/mit-license.php The MIT License
  * @package	Lectionary
  */
 namespace Lutheran\Lectionary\Calculator;
@@ -64,7 +64,7 @@ class Historic implements Calculator {
 
 	public function getEndOfYear() {
 		$endOfYear = $this->getLastSunday();
-		$endOfYear->modify("-3 weeks");
+		$endOfYear->modify("-2 weeks");
 		
 		return $endOfYear;
 	}

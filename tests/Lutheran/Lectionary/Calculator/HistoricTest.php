@@ -2,8 +2,10 @@
 namespace Lutheran\Lectionary\Calculator;
 
 use Lutheran\Lectionary;
+use Lutheran\Lectionary\Sundays;
+use PHPUnit\Framework\TestCase;
 
-class HistoricTest extends \PHPUnit_Framework_TestCase {
+class HistoricTest extends TestCase {
 
 	protected function checkDatesAndWeek($dates, $week) {
 		$calculator = Lectionary::factory('Historic');
@@ -17,6 +19,15 @@ class HistoricTest extends \PHPUnit_Framework_TestCase {
 		}
 	}
 
+	public function testTrinity20() {
+		$dates = array(
+			"11/03/2019",
+			"10/25/2020",
+		);
+
+		$this->checkDatesAndWeek($dates, Sundays::TRINITY_20);
+	}
+
 	public function testTrinity22() {
 		$dates = array(
 			"11/04/2012",
@@ -25,7 +36,15 @@ class HistoricTest extends \PHPUnit_Framework_TestCase {
 			"11/04/2007",
 		);
 
-		$this->checkDatesAndWeek($dates, 52);
+		$this->checkDatesAndWeek($dates, Sundays::TRINITY_22);
+	}
+
+	public function testTrinity23() {
+		$dates = array(
+			"11/04/2018",
+		);
+
+		$this->checkDatesAndWeek($dates, Sundays::TRINITY_23);
 	}
 
 	public function testEaster() {

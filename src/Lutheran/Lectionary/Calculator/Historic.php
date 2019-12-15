@@ -192,7 +192,7 @@ class Historic implements Calculator {
 
 		// After the baptism of our lord and before lent 1 nothing is priviliged
 		if ($week > Sundays::THE_BAPTISM_OF_OUR_LORD && $week < Sundays::LENT_1) {
-			return fasle;
+			return false;
 		}
 
 		// After trinity sunday and before the last sunday nothing is privileged

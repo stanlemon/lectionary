@@ -16,6 +16,7 @@ namespace Lutheran\Lectionary\Calculator;
 
 use Lutheran\Lectionary\Calculator;
 use Lutheran\Lectionary\Exception;
+use Lutheran\Lectionary\Sundays;
 
 class Historic implements Calculator {
 
@@ -179,7 +180,27 @@ class Historic implements Calculator {
 
 		$isOverride = in_array($this->getSunday()->format('m-d'), $overrides);
 
-		return $week != 12 && ($isOverride || ($week > 7 && $week < 16) || ($week > 30 && $week < 57)) ? false : true;
+		// These days trump any privilige, eg. Always celebrate Epiphany
+		if ($isOverride) {
+			return false;
+		}
+
+		// Transfiguration (which is between the baptism and lent 1) is privilieged 
+		if ($week != Sundays::TRANSFIGURATION) {
+			return true;
+		}
+
+		// After the baptism of our lord and before lent 1 nothing is priviliged
+		if ($week > Sundays::THE_BAPTISM_OF_OUR_LORD && $week < Sundays::LENT_1) {
+			return fasle;
+		}
+
+		// After trinity sunday and before the last sunday nothing is privileged
+		if ($week > Sundays::TRINITY_SUNDAY && $week < Sundays::LAST_SUNDAY) {
+			return false;
+		}
+
+		return true;
 	}
 
 

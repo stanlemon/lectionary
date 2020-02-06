@@ -43,8 +43,12 @@ class Historic implements Calculator {
 		$epiphany = $this->getEpiphany();
 		$transfiguration = $this->getTransfiguration();
 
+		// If Christmas Day is not a Sunday
+		if ($sunday->format("Ymd") == $this->getChristmas()->format("Ymd")) {
+			// Why null? Because this one requires special handling by your code. Check for 12/25!
+			return null;
 		// After Advent
-		if ($sunday >= $advent) {
+		} elseif ($sunday >= $advent) {
 			return $this->getWeekDifference( $advent , $sunday );
 		// After Epiphany, Before Transfiguration
 		} elseif ($sunday >= $epiphany && $sunday < $transfiguration) {
@@ -70,14 +74,12 @@ class Historic implements Calculator {
 		return $endOfYear;
 	}
 
-
 	public function getLastSunday() {
 		$lastSunday = $this->getAdvent();
 		$lastSunday->modify("-1 week");
 
 		return $lastSunday;
 	}
-
 
 	public function getAdvent() {
 		$advent = new \DateTime();
@@ -94,7 +96,6 @@ class Historic implements Calculator {
 		return $advent;
 	}
 
-
 	public function getChristmas() {
 		$christmas = new \DateTime();
 		$christmas->setDate($this->date->format('Y'), 12, 25);
@@ -102,7 +103,6 @@ class Historic implements Calculator {
 		
 		return $christmas;
 	}
-
 
 	public function getEpiphany() {
 		$epiphany = new \DateTime();
@@ -112,7 +112,6 @@ class Historic implements Calculator {
 		return $epiphany;
 	}
 
-
 	public function getTransfiguration() {
 		$transfiguration = $this->getEaster();
 		$transfiguration->modify('-10 weeks');
@@ -120,6 +119,11 @@ class Historic implements Calculator {
 		return $transfiguration;
 	}
 
+	public function getAshWednesday() {
+		$ashWednesday = $this->getLent();
+		$ashWednesday->modify("last Wednesday");
+		return $ashWednesday;
+	}
 
 	public function getLent() {
 		$lent = $this->getEaster();
@@ -127,7 +131,6 @@ class Historic implements Calculator {
 		
 		return $lent;
 	}
-	
 
 	public function getEaster() {
 		$year = $this->date->format('Y');
@@ -156,14 +159,17 @@ class Historic implements Calculator {
 		return $easter;
 	}
 
+	public function getTrinity() {
+		$trinity = $this->getEaster();
+		$trinity->modify('+6 weeks');
+		return $trinity;
+	}
 
 	public function getPentecost() {
 		$pentecost = $this->getEaster();
 		$pentecost->modify('+7 weeks');
-		
 		return $pentecost;
 	}
-	
 	
 	public function isPrivileged() {
 		$overrides = array(
@@ -203,7 +209,6 @@ class Historic implements Calculator {
 		return true;
 	}
 
-
 	protected function getSunday() {
 		if ($this->date->format('w') != 0) {
 			$sunday = clone $this->date;
@@ -214,7 +219,6 @@ class Historic implements Calculator {
 			return clone $this->date;
 		}
 	}
-	
 	
 	protected function getWeekDifference(\DateTime $week1 , \DateTime $week2) {
 		if ( $week1->format("Ymd") > $week2->format("Ymd") ) {
